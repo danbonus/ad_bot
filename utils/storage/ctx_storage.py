@@ -1,18 +1,17 @@
-import typing
+from typing import Any, Hashable
 
-from vkbottle_overrides.tools.dev_tools.ctx_tool import BaseContext
+from .ctx_tool import BaseContext
 from .abc import ABCStorage
 
 
 class CtxStorage(ABCStorage, BaseContext):
-    """ Context storage
-    Documentation: https://github.com/timoniq/vkbottle/blob/master/docs/tools/storage.md
-    """
-
     storage: dict = {}
 
     def __init__(
-        self, default: dict = None, force_reset: bool = False, section=None
+        self, 
+        default: dict = None, 
+        force_reset: bool = False,
+        section=None
     ):
 
         default = default or {}
@@ -25,12 +24,12 @@ class CtxStorage(ABCStorage, BaseContext):
         if self.section not in self.get_instance().storage:
             self.get_instance().storage[self.section] = {}
 
-    def set(self, key: typing.Hashable, value: typing.Any) -> None:
+    def set(self, key: Hashable, value: Any) -> None:
         current_storage = self.get_instance().storage
         current_storage[self.section][key] = value
         self.set_instance(CtxStorage(current_storage, True))
 
-    def update(self, key: typing.Hashable, **info) -> None:
+    def update(self, key: Hashable, **info) -> None:
         current_storage = self.get_instance().storage
 
         old_value = self.get(key)
@@ -39,13 +38,13 @@ class CtxStorage(ABCStorage, BaseContext):
         current_storage[self.section][key] = old_value
         self.set_instance(CtxStorage(current_storage, True))
 
-    def get(self, key: typing.Hashable) -> typing.Any:
+    def get(self, key: Hashable) -> Any:
         return self.get_instance().storage.get(self.section)[key]
 
-    def delete(self, key: typing.Hashable) -> None:
+    def delete(self, key: Hashable) -> None:
         new_storage = self.get_instance().storage
         new_storage[self.section].pop(key)
         self.set_instance(CtxStorage(new_storage, True))
 
-    def contains(self, key: typing.Hashable) -> bool:
+    def contains(self, key: Hashable) -> bool:
         return key in self.get_instance().storage[self.section]

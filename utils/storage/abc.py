@@ -1,4 +1,4 @@
-import typing
+from typing import Any, Hashable
 from abc import ABC, abstractmethod
 
 
@@ -8,23 +8,23 @@ class ABCStorage(ABC):
     """
 
     @abstractmethod
-    def get(self, key: typing.Hashable) -> typing.Any:
+    def get(self, key: Hashable) -> Any:
         pass
 
     @abstractmethod
-    def set(self, key: typing.Hashable, value: typing.Any) -> None:
+    def set(self, key: Hashable, value: Any) -> None:
         pass
 
     @abstractmethod
-    def update(self, key: typing.Hashable, **info) -> None:
+    def update(self, key: Hashable, **info) -> None:
         pass
 
     @abstractmethod
-    def delete(self, key: typing.Hashable) -> None:
+    def delete(self, key: Hashable) -> None:
         pass
 
     @abstractmethod
-    def contains(self, key: typing.Hashable) -> bool:
+    def contains(self, key: Hashable) -> bool:
         pass
 
     def __repr__(self):
@@ -33,8 +33,8 @@ class ABCStorage(ABC):
     def __contains__(self, item: str) -> bool:
         return self.contains(item)
 
-    def __setitem__(self, key: typing.Hashable, value: typing.Any) -> None:
+    def __setitem__(self, key: Hashable, value: Any) -> None:
         self.set(key, value)
 
-    def __getitem__(self, key: typing.Hashable) -> typing.Any:
+    def __getitem__(self, key: Hashable) -> Any:
         return self.get(key)

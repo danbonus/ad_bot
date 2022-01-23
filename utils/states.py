@@ -7,15 +7,9 @@ class MenuStates(BaseStateGroup):
     LOG = 2
 
 
-class AnnouncementStates(BaseStateGroup):
-    CREATE_ANNOUNCEMENT = 5
-    VIEW_ANNOUNCEMENTS = 6
-    ARCHIVE_ANNOUNCEMENT = 7
-
-
 class AnnouncementCreationStates(BaseStateGroup):
-    GET_NAME = 8
-    GET_TEXT = 9
-    GET_ATTACHMENTS = 10
-    GET_PRICE = 11
-    GET_TIME = 12
+    GET_NAME = 3
+    GET_TEXT = 4
+    GET_ATTACHMENTS = 5
+    GET_PRICE = 6
+    GET_TIME = 7

@@ -6,9 +6,9 @@ class Announcement(Model):
     id = fields.IntField(pk=True)
     name = fields.TextField(required=True)
     text = fields.TextField()
-    price = fields.IntField()
     attachments = fields.JSONField()
     time = fields.DatetimeField()
+    price = fields.IntField()
 
     class Meta:
         model = "Announcement"
