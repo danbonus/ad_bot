@@ -9,6 +9,7 @@ from utils.storage import CtxStorage
 from utils.loop_wrapper.loop_wrapper import LoopWrapper
 import logging
 from utils.UtilsMiddleware import UtilsMiddleware
+from announce import announce
 
 logger = logging.getLogger("vkbottle")
 logger.setLevel(20)
@@ -46,5 +47,6 @@ if __name__ == '__main__':
         i.load(bot)
 
     lw.add_task(init_and_generate())
+    lw.create_interval(announce, minutes=1, storage=storage)
     bot.labeler.message_view.register_middleware(UtilsMiddleware)
     bot.run_forever()

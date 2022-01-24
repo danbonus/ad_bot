@@ -87,13 +87,15 @@ async def get_description(message: Message, storage):
 
 @bp.on.message(state=AnnouncementCreationStates.GET_TIME)
 async def get_description(message: Message, storage):
-    time = datetime.strptime(message.text, "%H:%M")
-    announcement = await Announcement.create(
+    announce_time = [i.strip() for i in message.text.split(",")]
+
+    await Announcement.create(
         name=storage["name"],
         text=storage['text'],
         attachments=storage['attachments'],
-        time=time,
-        price=storage['price']
+        time=announce_time,
+        price=storage['price'],
+        announcer_uid=message.from_id
     )
     await bp.state_dispenser.delete(message.peer_id)
     return "Ну всё, блять, молодец. Создано."

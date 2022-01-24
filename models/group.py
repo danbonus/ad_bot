@@ -2,7 +2,7 @@ from tortoise.models import Model
 from tortoise import fields
 
 
-class Groups(Model):
+class Group(Model):
     id = fields.IntField(pk=True)
     uid = fields.IntField(required=True)
 

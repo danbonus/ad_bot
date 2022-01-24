@@ -7,8 +7,9 @@ class Announcement(Model):
     name = fields.TextField(required=True)
     text = fields.TextField()
     attachments = fields.JSONField()
-    time = fields.DatetimeField()
+    time = fields.JSONField()
     price = fields.IntField()
+    announcer_uid = fields.IntField()
 
     class Meta:
         model = "Announcement"
