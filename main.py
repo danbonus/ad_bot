@@ -1,15 +1,17 @@
-from configparser import ConfigParser
-from vkbottle import load_blueprints_from_package
-from vkbottle.bot import Bot
-from vkbottle.api import API
-import sys
-from orm import init
-from models.announcer import Announcer
-from utils.storage import CtxStorage
-from utils.loop_wrapper.loop_wrapper import LoopWrapper
 import logging
-from utils.UtilsMiddleware import UtilsMiddleware
+import sys
+from configparser import ConfigParser
+
+from vkbottle import load_blueprints_from_package
+from vkbottle.api import API
+from vkbottle.bot import Bot
+
 from announce import announce
+from models.announcer import Announcer
+from orm import init
+from utils.UtilsMiddleware import UtilsMiddleware
+from utils.loop_wrapper.loop_wrapper import LoopWrapper
+from utils.storage import CtxStorage
 
 logger = logging.getLogger("vkbottle")
 logger.setLevel(20)
@@ -43,8 +45,20 @@ async def generate_api():
 if __name__ == '__main__':
     storage = CtxStorage()
 
+    blueprints = []
+    end_blueprints = {"Menu": None}
     for i in load_blueprints_from_package('blueprints'):
+        if i.name in end_blueprints.keys():
+            end_blueprints[i.name] = i
+        else:
+            blueprints.append(i)
+
+    for i in blueprints:
         i.load(bot)
+
+    for i, _ in end_blueprints.items():
+        _.load(bot)
+
 
     lw.add_task(init_and_generate())
     lw.create_interval(announce, minutes=1, storage=storage)

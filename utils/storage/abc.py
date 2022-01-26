@@ -1,5 +1,5 @@
-from typing import Any, Hashable
 from abc import ABC, abstractmethod
+from typing import Any, Hashable
 
 
 class ABCStorage(ABC):

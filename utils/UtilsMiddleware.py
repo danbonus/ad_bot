@@ -1,12 +1,13 @@
 from vkbottle import BaseMiddleware
-from utils.storage import CtxStorage
 from vkbottle.bot import Message
+
+from utils.storage import CtxStorage
 
 
 class UtilsMiddleware(BaseMiddleware[Message]):
     async def pre(self):
         storage = CtxStorage(section=self.event.from_id)
-        print('хуй пизда')
         self.send({
-            'storage': storage
+            'storage': storage,
+            'no_section_storage': CtxStorage()
         })

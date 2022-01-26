@@ -1,7 +1,7 @@
-from asyncio import AbstractEventLoop, get_event_loop
-
 import asyncio
+from asyncio import AbstractEventLoop, get_event_loop
 from typing import Any, Callable, Coroutine, List, Optional, Union
+
 from vkbottle import LoopWrapper as StockWrapper
 from vkbottle.modules import logger
 
