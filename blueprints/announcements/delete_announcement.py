@@ -4,7 +4,7 @@ from vkbottle.bot import Blueprint
 from vkbottle.bot import Message
 
 from models.announcement import Announcement
-from utils.keyboard import BACK_TO_MENU, get_announcements_to_delete, CONFIRMATION_KEYBOARD
+from utils.keyboard import BACK_TO_MENU, get_announcements, CONFIRMATION_KEYBOARD
 from utils.states import AnnouncementDeletionStates
 
 bp = Blueprint()
@@ -14,7 +14,7 @@ bp.name = "Delete announcement"
 @bp.on.message(text="Удалить объявление")
 @bp.on.message(payload={"cmd": "delete_announcement"})
 async def delete_announcement(message: Message):
-    keyboard = get_announcements_to_delete(await Announcement.all(), 3)
+    keyboard = get_announcements(await Announcement.all(), 3)
     await message.answer("Выбери объяву.", keyboard=keyboard)
     await bp.state_dispenser.set(message.peer_id, AnnouncementDeletionStates.GET_ID)
 

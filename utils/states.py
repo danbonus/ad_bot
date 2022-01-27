@@ -31,3 +31,10 @@ class GroupAdditionStates(BaseStateGroup):
 class GroupDeletionStates(BaseStateGroup):
     GET_GROUP = 12
     CONFIRMATION_STATE = 13
+
+
+class AnnouncementEditingStates(BaseStateGroup):
+    GET_ID = 14
+    GET_ACTION = 15
+    GET_VALUE = 16
+    CONFIRMATION_STATE = 17

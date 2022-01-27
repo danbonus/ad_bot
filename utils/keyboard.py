@@ -23,11 +23,14 @@ class Keyboard(RootKeyboard):
         return temp_keyboard
 
 
+BACK_TO_MENU = Keyboard()
+BACK_TO_MENU.add(Text("Вернуться в меню", {"cmd": "menu"}), color=KeyboardButtonColor.PRIMARY)
+
 MENU_KEYBOARD = (
     Keyboard()
-    .add(Text("Объявления", {"cmd": "announcements_menu"}))
+    .add(Text("Объявления", {"cmd": "announcements_menu"}), color=KeyboardButtonColor.POSITIVE)
     .row()
-    .add(Text("Группы", {"cmd": "groups_menu"}))
+    .add(Text("Группы", {"cmd": "groups_menu"}), color=KeyboardButtonColor.PRIMARY)
     .row()
     .add(Text("Лог", {"cmd": "view_log"}))
 ).get_json()
@@ -35,36 +38,49 @@ MENU_KEYBOARD = (
 
 ANNOUNCEMENT_KEYBOARD = (
     Keyboard()
-    .add(Text("Создать объявление", {"cmd": "create_announcement"}))
+    .add(Text("Создать", {"cmd": "create_announcement"}), color=KeyboardButtonColor.POSITIVE)
+    .add(Text("Список", {"cmd": "show_announcements"}), color=KeyboardButtonColor.PRIMARY)
     .row()
-    .add(Text("Посмотреть объявления", {"cmd": "show_announcements"}))
+    .add(Text("Редактировать", {"cmd": "edit_announcement"}), color=KeyboardButtonColor.PRIMARY)
     .row()
-    .add(Text("Удалить объявление", {"cmd": "delete_announcement"}))
-).get_json()
+    .add(Text("Удалить", {"cmd": "delete_announcement"}), color=KeyboardButtonColor.NEGATIVE)
+) + BACK_TO_MENU
 
+ANNOUNCEMENT_KEYBOARD = ANNOUNCEMENT_KEYBOARD.get_json()
+
+ANNOUNCEMENT_EDITING_KEYBOARD = (
+    Keyboard()
+    .add(Text("Поменять цену", {"edit": "price"}), color=KeyboardButtonColor.POSITIVE)
+    .row()
+    .add(Text("Поменять название", {"edit": "name"}), color=KeyboardButtonColor.PRIMARY)
+    .row()
+    .add(Text("Поменять текст", {"edit": "text"}), color=KeyboardButtonColor.PRIMARY)
+) + BACK_TO_MENU
+
+ANNOUNCEMENT_EDITING_KEYBOARD = ANNOUNCEMENT_EDITING_KEYBOARD.get_json()
 
 GROUPS_KEYBOARD = (
     Keyboard()
-    .add(Text("Добавить группу", {"cmd": "add_group"}))
+    .add(Text("Добавить группу", {"cmd": "add_group"}), color=KeyboardButtonColor.POSITIVE)
     .row()
-    .add(Text("Посмотреть список групп", {"cmd": "show_groups"}))
+    .add(Text("Посмотреть список групп", {"cmd": "show_groups"}), color=KeyboardButtonColor.PRIMARY)
     .row()
-    .add(Text("Удалить группу из БД", {"cmd": "remove_group"}))
-)
+    .add(Text("Удалить группу из БД", {"cmd": "remove_group"}), color=KeyboardButtonColor.NEGATIVE)
+) + BACK_TO_MENU
 
-BACK_TO_MENU = Keyboard()
-BACK_TO_MENU.add(Text("Вернуться в меню", {"cmd": "menu"}))
-BACK_TO_MENU = BACK_TO_MENU.get_json()
+GROUPS_KEYBOARD = GROUPS_KEYBOARD.get_json()
 
 
 CONFIRMATION_KEYBOARD = (
     Keyboard()
     .add(Text("Да", {"status": True}))
     .add(Text("Нет", {"status": False}))
-).get_json()
+) + BACK_TO_MENU
+
+CONFIRMATION_KEYBOARD = CONFIRMATION_KEYBOARD.get_json()
 
 
-def get_announcements_to_delete(announcements, row=3):
+def get_announcements(announcements, row=3):
     keyboard = Keyboard()
 
     for ad in announcements:
@@ -78,7 +94,7 @@ def get_announcements_to_show(announcements, row=3):
     keyboard = Keyboard()
 
     for i, ad in enumerate(announcements):
-        text += f"{i}) {ad.name} / {ad.price}р / {', '.join(ad.time)}\n\n"
+        text += f"{i+1}) {ad.name} / {ad.price}р / {', '.join(ad.time)}\n\n"
         keyboard.add(Text(ad.name, {"id": ad.id}), row=row)
 
     text += "При нажатии на кнопку выбранная объява будет разослана. Не переборщи"
